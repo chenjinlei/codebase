@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FragmentTest</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button">Button</string>
+    <string name="text">This is a right fragment</string>
+    <string name="another_text">This is another right fragment</string>
+
+</resources>
