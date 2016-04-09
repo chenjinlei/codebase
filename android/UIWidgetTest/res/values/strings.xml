@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">UIWidgetTest</string>
+    <string name="text_view">This is a TextView!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_text">Button</string>
+    <string name="name">type in your name</string>
+    <string name="image">lanucher image for demo</string>
+
+</resources>
