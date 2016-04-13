@@ -31,19 +31,19 @@ public class DatabaseProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		this.dbHelper = new MyDatabaseHelper(this.getContext(), "BookStore.db", null, 3);
+		DatabaseProvider.dbHelper = new MyDatabaseHelper(this.getContext(), "BookStore.db", null, 3);
 		return true;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		Cursor cursor = null;
 		switch (uriMatcher.match(uri)) {
-		case DatabaseProvider.BOOK_DIR:
+		case BOOK_DIR:
 			cursor = db.query("Book", projection, selection, selectionArgs, null, null, sortOrder);
 			break;
-		case DatabaseProvider.BOOK_ITEM:
+		case BOOK_ITEM:
 			String bookId = uri.getPathSegments().get(1);
 			cursor = db.query("Book", projection, "id = ?", new String[] { bookId }, null, null, sortOrder);
 			break;
@@ -62,26 +62,90 @@ public class DatabaseProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+			return "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.book";
+		case BOOK_ITEM:
+			return "vnd.android.cursor.item/vnd.com.exampel.databasetest.provider.book";
+		case CATEGORY_DIR:
+			return "vnd.android.cursor.dir/vnd.com.example.databasetest.provider.category";
+		case CATEGORY_ITEM:
+			return "vnd.android.cursor.item/vnd.com.example.databasetest.provider.category";
+		default:
+			break;
+		}
 		return null;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		Uri uriReturn = null;
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+		case BOOK_ITEM:
+			long newBookId = db.insert("Book", null, values);
+			uriReturn = Uri.parse("content://" + AUTHORITY + "/book/" + newBookId);
+			break;
+		case CATEGORY_DIR:
+		case CATEGORY_ITEM:
+			long newCategoryId = db.insert("Book", null, values);
+			uriReturn = Uri.parse("content://" + AUTHORITY + "/category/" + newCategoryId);
+			break;
+		default:
+			break;
+		}
+		return uriReturn;
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int deletedRows = 0;
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+			deletedRows = db.delete("Book", selection, selectionArgs);
+			break;
+		case BOOK_ITEM:
+			String bookId = uri.getPathSegments().get(1);
+			deletedRows = db.delete("Book", "id = ?", new String[] { bookId });
+			break;
+		case CATEGORY_DIR:
+			deletedRows = db.delete("Category", selection, selectionArgs);
+			break;
+		case CATEGORY_ITEM:
+			String categoryId = uri.getPathSegments().get(1);
+			deletedRows = db.delete("Category", "id = ?", new String[] { categoryId });
+			break;
+		default:
+			break;
+		}
+		return deletedRows;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int updatedRows = 0;
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+			updatedRows = db.update("Book", values, selection, selectionArgs);
+			break;
+		case BOOK_ITEM:
+			String bookId = uri.getPathSegments().get(1);
+			updatedRows = db.update("Book", values, "id = ?", new String[] { bookId });
+			break;
+		case CATEGORY_DIR:
+			updatedRows = db.update("Category", values, selection, selectionArgs);
+			break;
+		case CATEGORY_ITEM:
+			String categoryId = uri.getPathSegments().get(1);
+			updatedRows = db.update("Category", values, "id = ?", new String[] { categoryId });
+			break;
+		default:
+			break;
+		}
+		return updatedRows;
 	}
 
 }
