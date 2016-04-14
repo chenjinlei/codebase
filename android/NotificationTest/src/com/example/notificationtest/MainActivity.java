@@ -3,7 +3,9 @@ package com.example.notificationtest;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +52,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.send_notice:
 			NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 			Notification notification = new Notification(R.drawable.ic_launcher, "This is a ticker text", System.currentTimeMillis());
-			notification.setLatestEventInfo(getApplicationContext(), "This is content title", "blalblalba", null);
+			Intent intent = new Intent(this, NotificationActivity.class);
+			PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+			notification.setLatestEventInfo(getApplicationContext(), "This is content title", "blalblalba", pi);
 			manager.notify(1, notification);
 			
 			break;
