@@ -55,6 +55,7 @@ public class QingfengDB {
 			values.put("province_code", province.getProvinceCode());
 			db.insert("Province", null, values);
 		}
+		
 	}
 
 	/**
@@ -86,6 +87,7 @@ public class QingfengDB {
 			values.put("province_id", city.getProvinceId());
 			db.insert("City", null, values);
 		}
+		
 	}
 
 	/**
@@ -119,6 +121,7 @@ public class QingfengDB {
 			values.put("city_id", county.getCityId());
 			db.insert("County", null, values);
 		}
+		
 	}
 
 	/**
