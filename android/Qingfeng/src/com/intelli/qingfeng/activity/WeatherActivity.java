@@ -1,6 +1,7 @@
 package com.intelli.qingfeng.activity;
 
 import com.intelli.qingfeng.R;
+import com.intelli.qingfeng.service.AutoUpdateService;
 import com.intelli.qingfeng.util.HttpCallbackListener;
 import com.intelli.qingfeng.util.HttpUtil;
 import com.intelli.qingfeng.util.Utility;
@@ -145,6 +146,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		Intent i = new Intent(this, AutoUpdateService.class);
+		this.startService(i);
 	}
 
 }

@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class Utility {
 
@@ -108,7 +109,7 @@ public class Utility {
 	 */
 	public static void saveWeatherInfo(Context context, String cityName, String weatherCode, String temp1,
 			String temp2, String weatherDesp, String publishTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年mm月dd日", Locale.CHINA);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年m月d日", Locale.CHINA);
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean("city_selected", true);
 		editor.putString("city_name", cityName);
