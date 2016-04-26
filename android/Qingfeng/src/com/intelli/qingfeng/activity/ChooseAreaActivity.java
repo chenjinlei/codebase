@@ -49,13 +49,16 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 
 	private Province selectedProvince;
 	private City selectedCity;
-//	private County selectedCounty;
+	// private County selectedCounty;
 	private int currentLevel;
+
+	private boolean isFromWeatherActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+		isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_ activity", false);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean("city_selected", false)) {
 			Intent intent = new Intent(this, WeatherActivity.class);
@@ -63,7 +66,7 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 			finish();
 			return;
 		}
-		
+
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.setContentView(R.layout.choose_area);
 
@@ -75,7 +78,6 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 		qingfengDB = QingfengDB.getInstance(ChooseAreaActivity.this);
 		listView.setOnItemClickListener(this);
 
-		
 		queryProvinces();
 	}
 
@@ -95,7 +97,7 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 			finish();
 		}
 	}
-	
+
 	private void queryProvinces() {
 		provinceList = qingfengDB.loadProvinces();
 		if (provinceList.size() > 0) {
@@ -111,7 +113,7 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 			queryFromServer(null, "province");
 		}
 	}
-	
+
 	private void queryCities() {
 		cityList = qingfengDB.loadCities(selectedProvince.getId());
 		if (cityList.size() > 0) {
@@ -126,9 +128,9 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 		} else {
 			queryFromServer(selectedProvince.getProvinceCode(), "city");
 		}
-		
+
 	}
-	
+
 	private void queryCounties() {
 		countyList = qingfengDB.loadCounties(selectedCity.getId());
 		if (countyList.size() > 0) {
@@ -144,16 +146,16 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 			queryFromServer(selectedCity.getCityCode(), "county");
 		}
 	}
-	
+
 	private void queryFromServer(String code, final String type) {
 		String address;
-		
+
 		if (!TextUtils.isEmpty(code)) {
 			address = "http://www.weather.com.cn/data/list3/city" + code + ".xml";
 		} else {
 			address = "http://www.weather.com.cn/data/list3/city.xml";
 		}
-		
+
 		showProgressDialog();
 		HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
 
@@ -167,7 +169,7 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 				} else if ("county".equals(type)) {
 					result = Utility.handleCountiesResponse(qingfengDB, response, selectedCity.getId());
 				}
-				
+
 				if (result) {
 					runOnUiThread(new Runnable() {
 
@@ -181,10 +183,11 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 							} else if ("county".equals(type)) {
 								queryCounties();
 							}
-							
-						}});
+
+						}
+					});
 				}
-				
+
 			}
 
 			@Override
@@ -195,20 +198,21 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 					public void run() {
 						closeProgressDialog();
 						Toast.makeText(ChooseAreaActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-						
-					}});
-				
-			}});
-		
-		
+
+					}
+				});
+
+			}
+		});
+
 	}
-	
+
 	private void showProgressDialog() {
 		if (progressDialog == null) {
 			progressDialog = new ProgressDialog(this);
 			progressDialog.setMessage("正在加载...");
 			progressDialog.setCanceledOnTouchOutside(false);
-			
+
 		}
 		progressDialog.show();
 	}
@@ -218,7 +222,7 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 			progressDialog.dismiss();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		if (currentLevel == LEVEL_COUNTY) {
@@ -226,6 +230,10 @@ public class ChooseAreaActivity extends BaseActivity implements OnItemClickListe
 		} else if (currentLevel == LEVEL_CITY) {
 			queryProvinces();
 		} else {
+			if (isFromWeatherActivity) {
+				Intent intent = new Intent(this, WeatherActivity.class);
+				startActivity(intent);
+			}
 			finish();
 		}
 	}
