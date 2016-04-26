@@ -1,12 +1,12 @@
 package com.intelli.qingfeng.activity;
 
 import com.intelli.qingfeng.R;
+import com.intelli.qingfeng.common.BaseActivity;
 import com.intelli.qingfeng.service.AutoUpdateService;
 import com.intelli.qingfeng.util.HttpCallbackListener;
 import com.intelli.qingfeng.util.HttpUtil;
 import com.intelli.qingfeng.util.Utility;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class WeatherActivity extends Activity implements OnClickListener {
+public class WeatherActivity extends BaseActivity implements OnClickListener {
 
 	private LinearLayout weatherInfoLayout;
 	private TextView cityNameText;
@@ -46,7 +46,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText = (TextView) this.findViewById(R.id.current_date);
 		switchCity = (Button) findViewById(R.id.switch_city);
 		refreshWeather = (Button) findViewById(R.id.refresh_weather);
-		
+
 		String countyCode = getIntent().getStringExtra("county_code");
 		if (!TextUtils.isEmpty(countyCode)) {
 			publishText.setText("同步中...");
@@ -133,10 +133,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
 		queryFromServer(address, "weatherCode");
 	}
-	
 
 	private void showWeather() {
-		
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		cityNameText.setText(prefs.getString("city_name", ""));
 		temp1Text.setText(prefs.getString("temp1", ""));

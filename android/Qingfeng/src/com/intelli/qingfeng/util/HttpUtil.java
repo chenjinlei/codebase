@@ -18,7 +18,7 @@ public class HttpUtil {
 				HttpURLConnection connection = null;
 
 				try {
-					
+
 					URL url = new URL(address);
 					connection = (HttpURLConnection) url.openConnection();
 
