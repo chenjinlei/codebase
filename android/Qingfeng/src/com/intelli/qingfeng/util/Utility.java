@@ -95,8 +95,20 @@ public class Utility {
 			String weatherCode = weatherInfo.getString("cityid");
 			String temp1 = weatherInfo.getString("temp1");
 			String temp2 = weatherInfo.getString("temp2");
+			
+			// 服务器端返回的数据不定，这里做处理
+			int tmp1 = Integer.parseInt(temp1.replace("℃", ""));
+			int tmp2 = Integer.parseInt(temp2.replace("℃", ""));
+			if (tmp1 > tmp2) {
+				String temp = temp1;
+				temp1 = temp2;
+				temp2 = temp;
+			}
+			
 			String weatherDesp = weatherInfo.getString("weather");
 			String publishTime = weatherInfo.getString("ptime");
+			LogUtil.d("qingfeng", "tmp1 >>" + temp1);
+			LogUtil.d("qingfeng", "tmp2 >> " + temp2);
 			saveWeatherInfo(context, cityName, weatherCode, temp1, temp2, weatherDesp, publishTime);
 		} catch (JSONException e) {
 			e.printStackTrace();
