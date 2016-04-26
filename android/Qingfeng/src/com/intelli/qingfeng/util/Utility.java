@@ -16,7 +16,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class Utility {
 
@@ -98,6 +97,10 @@ public class Utility {
 			String temp2 = weatherInfo.getString("temp2");
 			String weatherDesp = weatherInfo.getString("weather");
 			String publishTime = weatherInfo.getString("ptime");
+			LogUtil.d("qingfeng", "temp1 >> " + temp1);
+			LogUtil.d("qingfeng", "temp2 >> " + temp2);
+			LogUtil.d("qingfeng", "weatherDesp >> " + weatherDesp);
+			LogUtil.d("qingfeng", "publishTime >> " + publishTime);
 			saveWeatherInfo(context, cityName, weatherCode, temp1, temp2, weatherDesp, publishTime);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -109,7 +112,7 @@ public class Utility {
 	 */
 	public static void saveWeatherInfo(Context context, String cityName, String weatherCode, String temp1,
 			String temp2, String weatherDesp, String publishTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年m月d日", Locale.CHINA);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日", Locale.CHINA);
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		editor.putBoolean("city_selected", true);
 		editor.putString("city_name", cityName);
