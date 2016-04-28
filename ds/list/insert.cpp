@@ -11,10 +11,15 @@ typedef struct {
 
 void sqlist_insert(sq_list *, element );
 
-int main()
+int main(int argc, char *argv[])
 {
 	sq_list *list1;
 	char ch = 'a';
+
+	if (argc < 2) {
+		printf("Usage: two parameters required!\n");
+		return 1;
+	}
 
 	list1 = (sq_list *)malloc(sizeof(sq_list));
 	list1->length = 0;
@@ -25,7 +30,8 @@ int main()
 	}
 
 	printf("before insert op.: %s\n", list1->data);
-	sqlist_insert(list1, 'b');
+	// we only use the first character of argv[1]
+	sqlist_insert(list1, (element)*argv[1]);
 	list1->data[list1->length] = '\0';
 	printf("after insert op.: %s\n", list1->data);
 
