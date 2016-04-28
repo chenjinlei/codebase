@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAXSIZE 100
 
@@ -12,7 +13,7 @@ typedef struct {
 
 int sqlist_compare(sqlist , sqlist );
 
-int main()
+int main(int argc, char *argv[])
 {
 
 	sqlist list1, list2;
@@ -21,13 +22,30 @@ int main()
 	list1.length = 0;
 	list2.length = 0;
 
+	if (argc < 3) {
+		printf("Usage: Two string required!\n");
+		return 1;
+	}
+
+	/*
 	for (int i = 0; i < 5; i++) {
 		list1.data[i] = ch++;
 		list2.data[i] = ch;
 		list1.length++;
 		list2.length++;
 	}
+	*/
+
+	for (int i = 0; i < (int)strlen(argv[1]); i++) {
+		list1.data[i] = *(*(argv + 1) + i);
+		list1.length++;
+	}
 	list1.data[list1.length] = '\0';
+
+	for (int j = 0; j < (int)strlen(argv[2]); j++) {
+		list2.data[j] = *(*(argv + 2) + j);
+		list2.length++;
+	}
 	list2.data[list2.length] = '\0';
 
 	printf("list1: %s\n", list1.data);
