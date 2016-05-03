@@ -4,7 +4,7 @@
 
 #define MAXSIZE 100
 
-typedef char element;
+typedef int element;
 typedef struct {
 	element data[MAXSIZE];
 	int length;
@@ -24,6 +24,71 @@ element get_element(sqlist , int );
 sqlist delete_elememt(sqlist , int);
 int locate_element(sqlist , element );
 
+int main()
+{
+	sqlist list1;
+	element sample;
+	int index;
+	int num;
+
+	printf("This program implements sequence list, \n");
+	printf("with operation `locate`, `insert`, `delete`, etc.\n");
+
+	create_list(&list1);
+
+	int flag = 1;
+	while (flag) {
+		printf("\n1. Print all the elements.\n");
+		printf("2. Insert an element.\n");
+		printf("3. Delete an element.\n");
+		printf("4. Locate an element.\n");
+		printf("5. Reverse the entire list.\n");
+		printf("6. Exit.\n");
+		printf("Please choose: ");
+
+		scanf("%d", &num);
+		if (num == 1) {
+			print_list(list1);
+		} else if (num == 2) {
+			printf("Please enter index: ");
+			scanf("%d", &index);
+			printf("Please enter the element: ");
+			scanf("%d", &sample);
+			list1 = insert_list(list1, index, sample);
+			printf("After insert: ");
+			print_list(list1);
+		} else if (num == 3) {
+			printf("Please enter index to delete: ");
+			scanf("%d", &index);
+			list1 = delete_elememt(list1, index);
+			printf("After delete: ");
+			print_list(list1);
+		} else if (num == 4) {
+			printf("Please enter element to locate: ");
+			scanf("%d", &sample);
+			index = locate_element(list1, sample);
+			if (-1 == index)
+				printf("Element %c not found.\n", sample);
+			else
+				printf("Found at %d\n", index+1);
+		} else if (num == 5) {
+			printf("After reverse: ");
+			reverse_list(&list1);
+			print_list(list1);
+		} else if (num == 6) {
+			flag = 0;
+			printf("Program finished. Press any key to continue...");
+			getchar();
+		} else {
+			printf("Wrong selection.\n");
+		}
+	}
+
+	return 0;
+
+}
+
+
 void create_list(sqlist *list) {
 
 	printf("please enter length of the list to be created: ");
@@ -31,11 +96,11 @@ void create_list(sqlist *list) {
 
 	printf("Now, please enter %d elements separated by space!\n", list->length);
 	for (int i = 0; i < list->length; i++) {
-		scanf("%c", &list->data[i]);
+		scanf("%d", &list->data[i]);
 	}
-	getchar();
 
-	printf("\nList created! Press any key to continue...\n");
+	printf("\nList created! Press any key to continue...");
+	getchar();
 
 }
 
@@ -59,11 +124,8 @@ void print_list(sqlist list) {
 	}
 
 	for (int i = 0; i < list.length; i++) {
-		printf("%c ", list.data[i]);
+		printf("%d ", list.data[i]);
 	}
-
-	printf("\n");
-	getchar();
 
 }
 
@@ -155,67 +217,4 @@ int locate_element(sqlist list, element ele) {
 	}
 
 	return -1;
-}
-
-
-int main()
-{
-	sqlist list1;
-	element ch;
-	int index;
-	char num;
-
-	printf("This program implements sequence list, \n");
-	printf("with operation `locate`, `insert`, `delete`, etc.\n");
-
-	create_list(&list1);
-
-	int flag = 1;
-	while (flag) {
-		printf("1. Print all the elements.\n");
-		printf("2. Insert an element.\n");
-		printf("3. Delete an element.\n");
-		printf("4. Locate an element.\n");
-		printf("5. Reverse the entire list.\n");
-		printf("6. Exit.\n");
-
-		//getchar();
-		scanf("%c", &num);
-		if (num == '1') {
-			print_list(list1);
-		} else if (num == '2') {
-			printf("Please enter index and the element, format as follows.\n");
-			printf("Format: element index; ex.: a 2\n");
-			scanf("%c %d", &ch, &index);
-			list1 = insert_list(list1, index, ch);
-			printf("After insert: ");
-			print_list(list1);
-		} else if (num == '3') {
-			printf("Please enter index to delete: ");
-			scanf("%d", &index);
-			list1 = delete_elememt(list1, index);
-			printf("After delete: ");
-			print_list(list1);
-		} else if (num == '4') {
-			printf("Please enter element to locate: ");
-			scanf("%c", &ch);
-			index = locate_element(list1, ch);
-			if (-1 == index)
-				printf("Element %c not found.\n", ch);
-			else
-				printf("Found at %d\n", index);
-		} else if (num == '5') {
-			printf("After reverse: ");
-			reverse_list(&list1);
-			print_list(list1);
-		} else if (num == '6') {
-			flag = 0;
-			printf("Program finished. Press any key to continue...\n");
-		} else {
-			printf("Wrong selection.\n");
-		}
-	}
-
-	return 0;
-
 }
