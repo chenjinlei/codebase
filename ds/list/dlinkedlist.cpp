@@ -41,12 +41,12 @@ int main()
 	list = node1;
 
 	do {
-		printf("\n	  	3.4：双向链表的基本操作		   \n");
+		printf("\n	Basic operations of doubly linked list	  \n");
 		printf("*******************************************************\n");
-		printf("		1:	插入操作\n");
-		printf("		2:	删除操作\n");
-		printf("		3:	打印链表\n");
-		printf("		4:	退出\n");
+		printf("		1:	Insert an integer\n");
+		printf("		2:	Delete an integer\n");
+		printf("		3:	Print whole list\n");
+		printf("		4:	Exit\n");
 		printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 		do {
 			scanf("%d", &num);
@@ -54,18 +54,18 @@ int main()
 
 		switch (num) {
 		case 1:
-			printf("请输入要插入的位置：");
+			printf("Please enter index: ");
 			scanf("%d", &index);
-			printf("请输入要插入的值：");
+			printf("Please enter the integer: ");
 			scanf("%d", &sample);
 			dlinkedlist_insert(list, index, sample);
 			dlinkedlist_print(list);
 			break;
 		case 2:
-			printf("请输入要删除的位置：");
+			printf("Please enter index: ");
 			scanf("%d", &index);
 			if(dlinkedlist_delete(list, index))
-				printf("删除成功！");
+				printf("Delete Succeeded!");
 			dlinkedlist_print(list);
 			break;
 		case 3:
@@ -80,18 +80,21 @@ int main()
 	return 0;
 }
 
+/*
+ * convension: insert as the `index` of the list.
+ */
 int dlinkedlist_insert(dlinkedlist &list, int index, element ch) {
 
 	dlinkedlist tmp = list;
 	int counter = 0;
 
 
-	while (tmp != NULL && counter < index) {
+	while (tmp->next != NULL && counter < index-1) {
 		tmp = tmp->next;
 		counter++;
 	}
 
-	if (counter != index || index < 0) {
+	if (counter != index-1 || index < 1) {
 		printf("WRONG index!\n");
 		return -1;
 	}
