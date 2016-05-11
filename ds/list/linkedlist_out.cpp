@@ -50,7 +50,7 @@ int create_list(int num) {
 		p = tmp;
 	}
 	p->next = head->next;
-	pre = head;
+	pre = head->next;
 
 	return 0;
 }
@@ -77,7 +77,7 @@ int out_list(int out_num, int num_of_people) {
 	printf("now in the out_list\n");
 	int i, m;
 	for (i = 0; i < num_of_people; ++i) {
-		for (m = 0; m < out_num; ++m)
+		for (m = 1; m < out_num; ++m)
 			pre = pre->next;
 		p = pre->next;
 		pre->next = p->next;
