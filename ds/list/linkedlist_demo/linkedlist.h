@@ -16,7 +16,7 @@ int init_list(linkedlist &list);
 int clear_list(linkedlist &list);
 int is_empty(linkedlist list);
 int length_of_list(linkedlist list);
-int delete_node(linkedlist &list, int index);
+bool delete_node(linkedlist &list, int index);
 listnode *locate_element(linkedlist list, element ele);
 void print_list(linkedlist list);
 
