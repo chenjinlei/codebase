@@ -11,13 +11,13 @@ typedef listnode *linkedlist;
 
 linkedlist create_list_head();
 linkedlist create_list_tail();
-int insert_node(linkedlist &list, int index, element ele);
-int init_list(linkedlist &list);
-int clear_list(linkedlist &list);
-int is_empty(linkedlist list);
-int length_of_list(linkedlist list);
-bool delete_node(linkedlist &list, int index);
-listnode *locate_element(linkedlist list, element ele);
-void print_list(linkedlist list);
+int insert_node(linkedlist &, int , element ele);
+int init_list(linkedlist &);
+int clear_list(linkedlist &);
+int is_empty(linkedlist );
+int length_of_list(linkedlist );
+bool delete_node(linkedlist &, int );
+listnode *locate_element(linkedlist , element );
+void print_list(linkedlist );
 
 #endif

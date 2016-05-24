@@ -157,5 +157,6 @@ void print_list(linkedlist list) {
 		printf("%d ", p->next->data);
 		p = p->next;
 	}
+	printf("\n");
 }
 
