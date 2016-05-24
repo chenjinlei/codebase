@@ -77,12 +77,16 @@ int init_list(linkedlist &list) {
 
 int clear_list(linkedlist &list) {
 
-	while (list != NULL) {
-		linkedlist p;
-		p = list;
-		list = list->next;
-		free(p);
+	linkedlist p = list->next;
+	linkedlist tmp;
+
+	while (p != NULL) {
+		tmp = p;
+		p = p->next;
+		free(tmp);
 	}
+
+	list->next = NULL;
 
 	return 0;
 }
