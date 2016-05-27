@@ -21,12 +21,11 @@ void enqueue(queue , element );
 element dequeue(queue );
 void print(queue );
 bool is_empty(queue );
-bool is_full(queue );
 
 
 int main()
 {
-	queue q;// = (queue) malloc(sizeof(queue_node));
+	queue q = (queue) malloc(sizeof(queue_node));
 	element e;
 	int flag = 1;
 	int select;
@@ -41,8 +40,7 @@ int main()
 		printf("2. enqueue.\n");
 		printf("3. dequeue.\n");
 		printf("4. show whether the queue is empty or not.\n");
-		printf("5. show whether the queue is full or not.\n");
-		printf("6. exit.\n");
+		printf("5. exit.\n");
 		scanf("%d", &select);
 		switch (select) {
 		case 1:
@@ -53,14 +51,10 @@ int main()
 			}
 			break;
 		case 2:
-			if (is_full(q)) {
-				printf("Full Queue!\n");
-			} else {
 				printf("Please enter en element to enqueue: ");
 				scanf("%d", &e);
 				enqueue(q, e);
 				printf("Enqueued: %d\n", e);
-			}
 			break;
 		case 3:
 			if (is_empty(q)) {
@@ -78,13 +72,6 @@ int main()
 			}
 			break;
 		case 5:
-			if (!is_full(q)) {
-				printf("Not full Queue.\n");
-			} else {
-				printf("Full Queue!\n");
-			}
-			break;
-		case 6:
 			flag = 0;
 			break;
 		default:
@@ -96,16 +83,63 @@ int main()
 }
 
 void init_queue(queue q) {
-	q = (queue) malloc(sizeof(queue_node));
-	q->front = NULL;
-	q->rear = NULL;
+	q->front = (linked_node *) malloc(sizeof(linked_node));
+	q->rear = (linked_node *) malloc(sizeof(linked_node));
+	q->rear->next = q->front;
+	q->front->next = NULL;
 }
 
 void enqueue(queue q, element e) {
 
+	if (q == NULL)
+		return;
+
+	linked_node *tmp = (linked_node *) malloc(sizeof(linked_node));
+	tmp->data = e;
+	tmp->next = q->rear->next;
+	q->rear->next = tmp;
+
+	if (q->front->next == NULL)
+		q->front->next = tmp;
+
 }
-element dequeue(queue );
-void print(queue );
-bool is_empty(queue );
-bool is_full(queue );
+
+element dequeue(queue q) {
+
+	element e;
+
+	linked_node *p = q->front->next;
+	linked_node *s = q->rear;
+
+	if (q->front->next == q->rear->next) {
+		e = q->front->next->data;
+		free(q->front->next);
+		q->rear->next = q->front;
+		q->front->next = NULL;
+		return e;
+	}
+
+	while (s->next != p)
+		s = s->next;
+	e = p->data;
+	q->front->next = s;
+	free(p);
+
+	return e;
+}
+
+void print(queue q) {
+
+	linked_node *p = q->rear->next;
+
+	while (p!=q->front) {
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+}
+
+bool is_empty(queue q) {
+	return q->rear->next == q->front;
+}
 
