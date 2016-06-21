@@ -2,7 +2,7 @@ CFLAGS=-Wall -g
 
 all: ex1 ex3 ex7 ex8 ex9 ex10 \
 	ex11 ex12 ex13 ex14 ex15 \
-	ex16
+	ex16 ex17
 ex1: ex1.c
 	cc ex1.c -o ex1 $(CFLAGS)
 ex3: ex3.c
@@ -27,7 +27,9 @@ ex15: ex15.c
 	cc ex15.c -o ex15 $(CFLAGS)
 ex16: ex16.c
 	cc ex16.c -o ex16 $(CFLAGS)
+ex17: ex17.c
+	cc ex17.c -o ex17 $(CFLAGS)
 clean:
 	rm -rf *.dSYM ex1 ex3 ex7 ex8 ex9 \
 		ex10 ex11 ex12 ex13 ex14 ex15 \
-		ex16
+		ex16 ex17
