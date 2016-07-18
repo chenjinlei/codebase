@@ -18,7 +18,7 @@ int duffs_device(char *from, char *to, int count)
 	{
 		int n = (count + 7) / 8;
 
-		switch (n % 8) {
+		switch (count % 8) {
 			case 0:
 				do {
 					*to++ = *from++;
@@ -48,7 +48,7 @@ int zeds_device(char *from, char *to, int count)
 	{
 		int n = (count + 7) / 8;
 
-		switch (n % 8) {
+		switch (count % 8) {
 			case 0:
 again:	*to++ = *from++;
 			case 7:
