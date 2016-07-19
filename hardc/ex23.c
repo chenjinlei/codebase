@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "dbg.h"
+
+#define ITERATE_TIMES 10000
 
 int normal_copy(char *from, char *to, int count)
 {
@@ -91,7 +94,9 @@ int main(int argc, char **argv)
 {
 	char from[1000] = { 'a' };
 	char to[1000] = { 'a' };
-	int rc = 0;
+	int rc = 0, i = 0;
+	double accumulate_time = 0.0;
+	clock_t begin, end;
 
 	// set up the from to have some stuff
 	memset(from, 'x', 1000);
@@ -100,25 +105,46 @@ int main(int argc, char **argv)
 	check(valid_copy(to, 1000, 'y'), "Not initialised right.");
 
 	// use normal copy to
-	rc = normal_copy(from, to, 1000);
+	begin = clock();
+	for (i = 0; i < ITERATE_TIMES; i++) {
+		rc = normal_copy(from, to, 1000);
+	}
+	end = clock();
+	accumulate_time = (double)(end - begin);
 	check(rc == 1000, "Normal copy failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Normal copy failed.");
+	printf("The time period of normal_copy is %lf ms(average run %d times)\n",
+			 accumulate_time / ITERATE_TIMES, ITERATE_TIMES);
 
 	// reset
 	memset(to, 'y', 1000);
 
 	// duffs version
-	rc = duffs_device(from, to, 1000);
+	begin = clock();
+	for (i = 0; i < ITERATE_TIMES; i++) {
+		rc = duffs_device(from, to, 1000);
+	}
+	end = clock();
+	accumulate_time = (double)(end - begin);
 	check(rc == 1000, "Duff's device failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Duff's device failed copy.");
+	printf("The time period of duffs_device_copy is %lf ms(average run %d times)\n",
+			 accumulate_time / ITERATE_TIMES, ITERATE_TIMES);
 
 	// reset
 	memset(to, 'y', 1000);
 
 	// my version
-	rc = zeds_device(from, to, 1000);
+	begin = clock();
+	for (i = 0; i < ITERATE_TIMES; i++) {
+		rc = zeds_device(from, to, 1000);
+	}
+	end = clock();
+	accumulate_time = (double)(end - begin);
 	check(rc == 1000, "Zed's device failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Zed's device failed copy.");
+	printf("The time period of zeds_device_copy is %lf ms(average run %d times)\n",
+			 accumulate_time / ITERATE_TIMES, ITERATE_TIMES);
 
 	return 0;
 error:
