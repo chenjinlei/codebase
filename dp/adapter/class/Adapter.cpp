@@ -1,0 +1,40 @@
+#include "Adapter.h"
+
+#include <iostream>
+using namespace std;
+
+Target::Target() {
+	cout << "Target constructed..." << endl;
+}
+
+Target::~Target() {
+	cout << "Target destructed..." << endl;
+}
+
+void Target::Request() {
+	cout << "Target::Request..." << endl;
+}
+
+Adaptee::Adaptee() {
+	cout << "Adaptee constructed..." << endl;
+}
+
+Adaptee::~Adaptee() {
+	cout << "Adaptee destructed..." << endl;
+}
+
+void Adaptee::SpecificRequest() {
+	cout << "Adaptee::SpecificRequest..." << endl;
+}
+
+Adapter::Adapter() {
+	cout << "Adapter constructed..." << endl;
+}
+
+Adapter::~Adapter() {
+	cout << "Adapter destructed..." << endl;
+}
+
+void Adapter::Request() {
+	this->SpecificRequest();
+}
